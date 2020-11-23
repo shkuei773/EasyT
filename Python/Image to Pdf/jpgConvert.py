@@ -23,7 +23,7 @@ class BTP(QWidget):
         qr = self.frameGeometry()
         cp = QDesktopWidget().availableGeometry().center()
         qr.moveCenter(cp)
-        self.move(qr.topLeft())
+        self.move(qr.left(), 10)
 
     def selectImages(self):
         try:
@@ -38,9 +38,20 @@ class BTP(QWidget):
             clearFileBtn = QPushButton("Image List Clear", self)
             selDelBtn = QPushButton("Select ListItem Delete", self)
             conFileBtn = QPushButton("Image To PDF",self)
+            upBtn = QPushButton("UP",self)
+            downBtn = QPushButton("DOWN",self)
+            openFileBtn.setFixedHeight(50)
+            clearFileBtn.setFixedHeight(50)
+            selDelBtn.setFixedHeight(50)
+            conFileBtn.setFixedHeight(50)
+            upBtn.setFixedHeight(50)
+            downBtn.setFixedHeight(50)
             self.textList = QListWidget(self)
             self.textList.setFixedWidth(400)
             self.textEdt = QLineEdit(self)
+            font = self.textEdt.font()
+            font.setPointSize(30)
+            self.textEdt.setFont(font)
 
             self.textList.addItem("")
             self.textList.clear()
@@ -51,6 +62,10 @@ class BTP(QWidget):
             hbox.addWidget(self.lblImg)
             hbox.addStretch(1)
 
+            sbox = QHBoxLayout()
+            sbox.addWidget(upBtn)
+            sbox.addWidget(downBtn)
+
             form = QVBoxLayout()
             form.addWidget(openFileBtn)
             form.addWidget(QLabel()) #<br>
@@ -60,6 +75,7 @@ class BTP(QWidget):
             form.addWidget(QLabel("Image List"))
             form.addLayout(hbox)
             form.addWidget(QLabel()) #<br>
+            form.addLayout(sbox)
             form.addWidget(selDelBtn)
             form.addWidget(clearFileBtn)
             form.addWidget(conFileBtn)
@@ -69,6 +85,8 @@ class BTP(QWidget):
             clearFileBtn.clicked.connect(self.FunClearBtn) #pass
             conFileBtn.clicked.connect(self.FunConImg) #pass
             selDelBtn.clicked.connect(self.FunSelDel) #pass
+            upBtn.clicked.connect(self.FunUpList)
+            downBtn.clicked.connect(self.FunDownList)
 
             self.setLayout(form) 
         except:
@@ -146,7 +164,55 @@ class BTP(QWidget):
         self.picM = self.picM.scaledToWidth(400)
         self.picM = self.picM.scaledToHeight(400)
         self.lblImg.setPixmap(self.picM)
-        
+
+    def FunUpList(self):
+        if self.textList.currentItem() is None:
+            QMessageBox.question(self, 'Empty', 'Not Selected', QMessageBox.Yes)
+        else:
+            delList = self.textList.currentItem()
+            try:
+                if self.textList.currentRow()-1 < 0:
+                    pass
+                else:
+                    n = self.textList.currentRow()
+                    self.textList.insertItem(n - 1, delList.text())
+                    self.textList.takeItem(n+1)
+
+                    temp = self.imageList[n]
+                    self.imageList[n] = self.imageList[n-1]
+                    self.imageList[n-1] = temp
+
+                    temp = self.allNameList[n]
+                    self.allNameList[n] = self.allNameList[n-1]
+                    self.allNameList[n-1] = temp
+                    self.textList.setCurrentRow(n - 1)
+            except:
+                QMessageBox.question(self, 'Error', 'Error', QMessageBox.Yes)
+
+    def FunDownList(self):
+        if self.textList.currentItem() is None:
+            QMessageBox.question(self, 'Empty', 'Not Selected', QMessageBox.Yes)
+        else:
+            delList = self.textList.currentItem()
+            try:
+                if self.textList.currentRow()+1 >= self.textList.count():
+                    pass
+                else:
+                    n = self.textList.currentRow()
+                    self.textList.insertItem(n + 2, delList.text())
+                    self.textList.takeItem(n)
+
+                    temp = self.imageList[n]
+                    self.imageList[n] = self.imageList[n+1]
+                    self.imageList[n+1] = temp
+
+                    temp = self.allNameList[n]
+                    self.allNameList[n] = self.allNameList[n+1]
+                    self.allNameList[n+1] = temp
+                    self.textList.setCurrentRow(n + 1)
+            except:
+                QMessageBox.question(self, 'Error', 'Error', QMessageBox.Yes)
+
     def MessageCancel(self):    
         QMessageBox.question(self, 'RollBack', 'This Cancelled', QMessageBox.Yes)
 
