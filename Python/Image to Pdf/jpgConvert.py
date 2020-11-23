@@ -5,6 +5,7 @@ from PIL import Image
 
 class BTP(QWidget):
     imageList = list()
+    numbering = 0
     def __init__(self):
         super().__init__()
         self.initUI()
@@ -27,7 +28,7 @@ class BTP(QWidget):
             openFileBtn = QPushButton("Select Image File", self)
             clearFileBtn = QPushButton("Image List Clear", self)
             conFileBtn = QPushButton("Image To PDF",self)
-            self.textList = QTextBrowser(self)
+            self.textList = QListWidget(self)
             self.textEdt = QLineEdit(self)
 
             form = QFormLayout()
@@ -62,8 +63,9 @@ class BTP(QWidget):
             #this?
             self.textList.setText(self.imageList) 
             #or this?
-            for i in self.imageList:
-                self.textList.append(i) #.lstrip('[]')특정 문자열 삭제    
+            for i in self.imageList:                               
+                self.textList.insertItem(self.numbering, i) #.lstrip('[]')특정 문자열 삭제    
+                self.numbering += 1 
         except:
             QMessageBox.question(self, 'Error', 'Error', QMessageBox.Yes)            
 
