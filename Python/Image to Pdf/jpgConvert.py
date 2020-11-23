@@ -27,6 +27,7 @@ class BTP(QWidget):
         try:
             openFileBtn = QPushButton("Select Image File", self)
             clearFileBtn = QPushButton("Image List Clear", self)
+            selDelBtn = QPushButton("Select ListItem Delete", self)
             conFileBtn = QPushButton("Image To PDF",self)
             self.textList = QListWidget(self)
             self.textEdt = QLineEdit(self)
@@ -41,11 +42,13 @@ class BTP(QWidget):
             form.addWidget(self.textList)        
             form.addWidget(QLabel()) #<br>
             form.addWidget(conFileBtn)
-            form.addWidget(clearFileBtn)
+            form.addWidget(clearFileBtn)                                    
+            form.addWidget(selDelBtn)
 
             openFileBtn.clicked.connect(self.DefFileOpen)
             clearFileBtn.clicked.connect(self.FunClearBtn)
             conFileBtn.clicked.connect(self.FunConImg)
+            selDelBtn.clicked.connect(self.FunSelDel)
 
             self.setLayout(form) 
         except:
@@ -84,7 +87,7 @@ class BTP(QWidget):
                 #self.numbering = 0
                 QMessageBox.question(self, 'Success', 'Success Image List Clear', QMessageBox.Yes)
             else:
-                self.MessageCancel       
+                self.MessageCancel()       
         except:
             QMessageBox.question(self, 'Error', 'Error', QMessageBox.Yes)
 
@@ -94,10 +97,25 @@ class BTP(QWidget):
         if os.path.exists(naming):
             messNY = QMessageBox.question(self, 'Want?', 'The same file exists, Do you want to cover it up?',QMessageBox.Yes|QMessageBox.No) 
         if messNY == QMessageBox.No:
-            self.MessageCancel  
+            self.MessageCancel()  
         else:                   
             self.imageList[0].save(naming, save_all=True, append_images=self.imageList[1:])
             QMessageBox.question(self, 'Success', 'Success Image To PDF', QMessageBox.Yes)
+            
+    def FunSelDel(self):
+        if self.textList.currentItem() is None:
+            QMessageBox.question(self, 'Empty', 'Not Selected', QMessageBox.Yes)
+        else:
+            delList = self.textList.currentItem()
+            try:
+                selDelMsg = QMessageBox.question(self, 'Want?', delList.text() + ", Do you want to Delete?", QMessageBox.Yes|QMessageBox.No)
+                if selDelMsg = QMessageBox.Yes:#del
+                    self.textList.takeItem( self.textList.currentRow() )
+                else:
+                    self.MessageCancel()
+            except:            
+                QMessageBox.question(self, 'Error', 'Error', QMessageBox.Yes)
+        
         
     def MessageCancel(self):
         QMessageBox.question(self, 'RollBack', 'This Cancelled', QMessageBox.Yes)
