@@ -40,7 +40,8 @@ class BTP(QWidget):
             form.addWidget(self.textEdt)
             form.addWidget(QLabel()) #<br>
             form.addWidget(QLabel("Image List"))
-            form.addWidget(self.textList)        
+            form.addWidget(self.textList)      
+            form.addWidget(picM)       
             form.addWidget(QLabel()) #<br>
             form.addWidget(conFileBtn)
             form.addWidget(clearFileBtn)                                    
