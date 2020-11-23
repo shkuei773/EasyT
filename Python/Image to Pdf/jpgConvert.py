@@ -80,6 +80,7 @@ class BTP(QWidget):
             if resetM == QMessageBox.Yes:
                 self.imageList.clear()
                 self.textList.clear()
+                self.numbering = 0
                 QMessageBox.question(self, 'Success', 'Success Image List Clear', QMessageBox.Yes)
             else:
                 self.MessageCancel       
