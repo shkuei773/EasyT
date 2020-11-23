@@ -66,12 +66,21 @@ class BTP(QWidget):
             self.imageList.clear()
             QMessageBox.question(self, 'Success', 'Success Image List Clear', QMessageBox.Yes)
         else:
-            QMessageBox.question(self, 'RollBack', 'This Cancelled', QMessageBox.Yes)        
+            self.MessageCancel      
 
     def FunConImg(self):
         naming = './'+self.textEdt.toPlainText()+'.pdf'
-        self.imageList[0].save(naming, save_all=True, append_images=self.imageList[1:])
-        QMessageBox.question(self, 'Success', 'Success Image To PDF', QMessageBox.Yes)
+        messNY
+        if os.path.exists(naming):
+            messNY = QMessageBox.question(self, 'Want?', 'The same file exists, Do you want to cover it up?',QMessageBox.Yes|QMessageBox.No) 
+        if messNY == QMessageBox.No:
+            self.MessageCancel  
+        else:                   
+            self.imageList[0].save(naming, save_all=True, append_images=self.imageList[1:])
+            QMessageBox.question(self, 'Success', 'Success Image To PDF', QMessageBox.Yes)
+        
+    def MessageCancel(self):
+        QMessageBox.question(self, 'RollBack', 'This Cancelled', QMessageBox.Yes)
 
 
 app = QApplication(sys.argv)
