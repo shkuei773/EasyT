@@ -1,12 +1,13 @@
 import sys
 import os.path
 from PyQt5.QtWidgets import *
+from PyQt5.QtGui import *
 from PIL import Image
-import LoadingBar.py
 
 class BTP(QWidget):
     imageList = list()
     #numbering = 0
+    allNameList = list()
     def __init__(self):
         super().__init__()
         self.initUI()
@@ -14,7 +15,7 @@ class BTP(QWidget):
     def initUI(self):
         self.setWindowTitle('To PDF')
         self.selectImages()
-        #self.resize(500, 100)
+        self.resize(800, 400)
         self.centerWnd()
         self.show()
 
@@ -26,33 +27,48 @@ class BTP(QWidget):
 
     def selectImages(self):
         try:
-            self.picM = QPixmap() 
+            self.picM = QPixmap('white.PNG')
+            self.lblImg = QLabel(self)
+            self.picM = self.picM.scaledToWidth(400)
+            self.picM = self.picM.scaledToHeight(400)
+            self.lblImg.setPixmap(self.picM)
+            self.lblImg.setFixedWidth(400)
+
             openFileBtn = QPushButton("Select Image File", self)
             clearFileBtn = QPushButton("Image List Clear", self)
             selDelBtn = QPushButton("Select ListItem Delete", self)
             conFileBtn = QPushButton("Image To PDF",self)
             self.textList = QListWidget(self)
+            self.textList.setFixedWidth(400)
             self.textEdt = QLineEdit(self)
 
-            form = QFormLayout()
+            self.textList.addItem("")
+            self.textList.clear()
+
+            hbox = QHBoxLayout()
+            hbox.addStretch(1)
+            hbox.addWidget(self.textList)
+            hbox.addWidget(self.lblImg)
+            hbox.addStretch(1)
+
+            form = QVBoxLayout()
             form.addWidget(openFileBtn)
             form.addWidget(QLabel()) #<br>
             form.addWidget(QLabel("Save PDF File Name"))
             form.addWidget(self.textEdt)
             form.addWidget(QLabel()) #<br>
             form.addWidget(QLabel("Image List"))
-            form.addWidget(self.textList)      
-            form.addWidget(self.picM)       
+            form.addLayout(hbox)
             form.addWidget(QLabel()) #<br>
-            form.addWidget(conFileBtn)
-            form.addWidget(clearFileBtn)                                    
             form.addWidget(selDelBtn)
+            form.addWidget(clearFileBtn)
+            form.addWidget(conFileBtn)
 
-            self.textList.itemClicked.connect(FunClickList)
-            openFileBtn.clicked.connect(self.DefFileOpen)
-            clearFileBtn.clicked.connect(self.FunClearBtn)
-            conFileBtn.clicked.connect(self.FunConImg)
-            selDelBtn.clicked.connect(self.FunSelDel)
+            self.textList.itemClicked.connect(self.FunClickList) #pass
+            openFileBtn.clicked.connect(self.DefFileOpen) #pass
+            clearFileBtn.clicked.connect(self.FunClearBtn) #pass
+            conFileBtn.clicked.connect(self.FunConImg) #pass
+            selDelBtn.clicked.connect(self.FunSelDel) #pass
 
             self.setLayout(form) 
         except:
@@ -66,14 +82,8 @@ class BTP(QWidget):
             for i in fO[0]:
                 # print(i.split('/')[-1]) #주소에서 맨뒤만 이미지이름으로 가져옴.
                 self.ImageConvert(i)
-            # print(self.imageList)  
-            #this?
-            self.textList.setText(self.imageList) 
-            #or this?
-            for i in self.imageList:                               
-                self.textList.addItem(i.split('/')[-1])#insertItem(self.numbering, i) #.lstrip('[]')특정 문자열 삭제    
-                #If using addItem, not need
-                #self.numbering += 1 
+                self.textList.addItem(i.split('/')[-1])
+                self.allNameList.append(i)
         except:
             QMessageBox.question(self, 'Error', 'Error', QMessageBox.Yes)            
 
@@ -88,6 +98,7 @@ class BTP(QWidget):
             if resetM == QMessageBox.Yes:
                 self.imageList.clear()
                 self.textList.clear()
+                self.allNameList.clear()
                 #self.numbering = 0
                 QMessageBox.question(self, 'Success', 'Success Image List Clear', QMessageBox.Yes)
             else:
@@ -96,15 +107,22 @@ class BTP(QWidget):
             QMessageBox.question(self, 'Error', 'Error', QMessageBox.Yes)
 
     def FunConImg(self):
-        naming = './'+self.textEdt.toPlainText()+'.pdf'
-        messNY
-        if os.path.exists(naming):
-            messNY = QMessageBox.question(self, 'Want?', 'The same file exists, Do you want to cover it up?',QMessageBox.Yes|QMessageBox.No) 
-        if messNY == QMessageBox.No:
-            self.MessageCancel()  
-        else:            
-            self.imageList[0].save(naming, save_all=True, append_images=self.imageList[1:])
-            QMessageBox.question(self, 'Success', 'Success Image To PDF', QMessageBox.Yes)
+        try:
+            naming = './'+self.textEdt.text()+'.pdf'
+            # print(naming)
+            if os.path.exists(naming):
+                messNY = QMessageBox.question(self, 'Want?', 'The same file exists, Do you want to cover it up?',QMessageBox.Yes|QMessageBox.No)
+                if messNY == QMessageBox.No:
+                    self.MessageCancel()
+                else:
+                    self.imageList[0].save(naming, save_all=True, append_images=self.imageList[1:])
+                    QMessageBox.question(self, 'Success', 'Success Image To PDF', QMessageBox.Yes)
+            else:
+                self.imageList[0].save(naming, save_all=True, append_images=self.imageList[1:])
+                QMessageBox.question(self, 'Success', 'Success Image To PDF', QMessageBox.Yes)
+        except:
+            QMessageBox.question(self, 'Error', 'Error', QMessageBox.Yes)
+
             
     def FunSelDel(self):
         if self.textList.currentItem() is None:
@@ -113,16 +131,21 @@ class BTP(QWidget):
             delList = self.textList.currentItem()
             try:
                 selDelMsg = QMessageBox.question(self, 'Want?', delList.text() + ", Do you want to Delete?", QMessageBox.Yes|QMessageBox.No)
-                if selDelMsg = QMessageBox.Yes:#del
+                if selDelMsg == QMessageBox.Yes:#del
                     self.textList.takeItem(self.textList.currentRow())
-                    del self.imageList[self.imageList.index(self.textList.currentRow())]
+                    del self.imageList[self.textList.currentRow()]
+                    del self.allNameList[self.textList.currentRow()]
                 else:
                     self.MessageCancel()
             except:            
                 QMessageBox.question(self, 'Error', 'Error', QMessageBox.Yes)     
                 
     def FunClickList(self):
-        self.picM.load(self.imageList[self.textList.currentRow()]) #Img Path              
+        # print(self.allNameList[self.textList.currentRow()])
+        self.picM.load(self.allNameList[self.textList.currentRow()]) #Img Path
+        self.picM = self.picM.scaledToWidth(400)
+        self.picM = self.picM.scaledToHeight(400)
+        self.lblImg.setPixmap(self.picM)
         
     def MessageCancel(self):    
         QMessageBox.question(self, 'RollBack', 'This Cancelled', QMessageBox.Yes)
