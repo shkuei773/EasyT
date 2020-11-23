@@ -15,3 +15,5 @@
 6. Use [QProgressBar](https://wikidocs.net/21941)
 
 7. Select Delete => (Now : Just All Clear)
+
+9. Change QTextBrowser to [QListWidget](https://pythonbasics.org/pyqt-list-box/)
