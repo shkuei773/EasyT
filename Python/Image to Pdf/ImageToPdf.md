@@ -10,4 +10,5 @@
 
 4. Use [QSplitter](https://wikidocs.net/32154) Design.
 
-5. File's Image View
+5. File's Image View => Use [QPixmap](https://wikidocs.net/33768)
+
