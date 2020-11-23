@@ -16,4 +16,4 @@
 
 7. Select Delete => (Now : Just All Clear)
 
-9. Change QTextBrowser to [QListWidget](https://pythonbasics.org/pyqt-list-box/)
+9. Change QTextBrowser to [QListWidget](https://pythonbasics.org/pyqt-list-box/) + [this](https://wikidocs.net/35496)
