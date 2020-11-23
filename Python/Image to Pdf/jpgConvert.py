@@ -25,7 +25,7 @@ class BTP(QWidget):
 
     def selectImages(self):
         try:
-            picM = QPixmap(self.imageList[self.textList.currentRow()]) 
+            self.picM = QPixmap() 
             openFileBtn = QPushButton("Select Image File", self)
             clearFileBtn = QPushButton("Image List Clear", self)
             selDelBtn = QPushButton("Select ListItem Delete", self)
@@ -41,12 +41,13 @@ class BTP(QWidget):
             form.addWidget(QLabel()) #<br>
             form.addWidget(QLabel("Image List"))
             form.addWidget(self.textList)      
-            form.addWidget(picM)       
+            form.addWidget(self.picM)       
             form.addWidget(QLabel()) #<br>
             form.addWidget(conFileBtn)
             form.addWidget(clearFileBtn)                                    
             form.addWidget(selDelBtn)
 
+            self.textList.itemClicked.connect(FunClickList)
             openFileBtn.clicked.connect(self.DefFileOpen)
             clearFileBtn.clicked.connect(self.FunClearBtn)
             conFileBtn.clicked.connect(self.FunConImg)
@@ -117,9 +118,12 @@ class BTP(QWidget):
                 else:
                     self.MessageCancel()
             except:            
-                QMessageBox.question(self, 'Error', 'Error', QMessageBox.Yes)        
+                QMessageBox.question(self, 'Error', 'Error', QMessageBox.Yes)     
+                
+    def FunClickList(self):
+        self.picM.load(self.imageList[self.textList.currentRow()]) #Img Path              
         
-    def MessageCancel(self):
+    def MessageCancel(self):    
         QMessageBox.question(self, 'RollBack', 'This Cancelled', QMessageBox.Yes)
 
 app = QApplication(sys.argv)
