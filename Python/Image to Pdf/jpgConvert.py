@@ -2,6 +2,7 @@ import sys
 import os.path
 from PyQt5.QtWidgets import *
 from PIL import Image
+import LoadingBar.py
 
 class BTP(QWidget):
     imageList = list()
@@ -101,7 +102,7 @@ class BTP(QWidget):
             messNY = QMessageBox.question(self, 'Want?', 'The same file exists, Do you want to cover it up?',QMessageBox.Yes|QMessageBox.No) 
         if messNY == QMessageBox.No:
             self.MessageCancel()  
-        else:                   
+        else:            
             self.imageList[0].save(naming, save_all=True, append_images=self.imageList[1:])
             QMessageBox.question(self, 'Success', 'Success Image To PDF', QMessageBox.Yes)
             
