@@ -1,5 +1,5 @@
 import sys
-import os
+import os.path
 from PyQt5.QtWidgets import *
 from PIL import Image
 
