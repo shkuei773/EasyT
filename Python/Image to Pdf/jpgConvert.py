@@ -25,6 +25,7 @@ class BTP(QWidget):
 
     def selectImages(self):
         try:
+            picM = QPixmap(self.imageList[self.textList.currentRow()]) 
             openFileBtn = QPushButton("Select Image File", self)
             clearFileBtn = QPushButton("Image List Clear", self)
             selDelBtn = QPushButton("Select ListItem Delete", self)
@@ -67,7 +68,7 @@ class BTP(QWidget):
             self.textList.setText(self.imageList) 
             #or this?
             for i in self.imageList:                               
-                self.textList.addItem(i)#insertItem(self.numbering, i) #.lstrip('[]')특정 문자열 삭제    
+                self.textList.addItem(i.split('/')[-1])#insertItem(self.numbering, i) #.lstrip('[]')특정 문자열 삭제    
                 #If using addItem, not need
                 #self.numbering += 1 
         except:
@@ -110,16 +111,15 @@ class BTP(QWidget):
             try:
                 selDelMsg = QMessageBox.question(self, 'Want?', delList.text() + ", Do you want to Delete?", QMessageBox.Yes|QMessageBox.No)
                 if selDelMsg = QMessageBox.Yes:#del
-                    self.textList.takeItem( self.textList.currentRow() )
+                    self.textList.takeItem(self.textList.currentRow())
+                    self.imageList.remove(delList.text())
                 else:
                     self.MessageCancel()
             except:            
-                QMessageBox.question(self, 'Error', 'Error', QMessageBox.Yes)
-        
+                QMessageBox.question(self, 'Error', 'Error', QMessageBox.Yes)        
         
     def MessageCancel(self):
         QMessageBox.question(self, 'RollBack', 'This Cancelled', QMessageBox.Yes)
-
 
 app = QApplication(sys.argv)
 ex = BTP()
