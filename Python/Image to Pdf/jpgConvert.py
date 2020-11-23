@@ -5,7 +5,7 @@ from PIL import Image
 
 class BTP(QWidget):
     imageList = list()
-    numbering = 0
+    #numbering = 0
     def __init__(self):
         super().__init__()
         self.initUI()
@@ -64,8 +64,9 @@ class BTP(QWidget):
             self.textList.setText(self.imageList) 
             #or this?
             for i in self.imageList:                               
-                self.textList.insertItem(self.numbering, i) #.lstrip('[]')특정 문자열 삭제    
-                self.numbering += 1 
+                self.textList.addItem(i)#insertItem(self.numbering, i) #.lstrip('[]')특정 문자열 삭제    
+                #If using addItem, not need
+                #self.numbering += 1 
         except:
             QMessageBox.question(self, 'Error', 'Error', QMessageBox.Yes)            
 
@@ -80,7 +81,7 @@ class BTP(QWidget):
             if resetM == QMessageBox.Yes:
                 self.imageList.clear()
                 self.textList.clear()
-                self.numbering = 0
+                #self.numbering = 0
                 QMessageBox.question(self, 'Success', 'Success Image List Clear', QMessageBox.Yes)
             else:
                 self.MessageCancel       
