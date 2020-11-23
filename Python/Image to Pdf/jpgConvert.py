@@ -112,7 +112,7 @@ class BTP(QWidget):
                 selDelMsg = QMessageBox.question(self, 'Want?', delList.text() + ", Do you want to Delete?", QMessageBox.Yes|QMessageBox.No)
                 if selDelMsg = QMessageBox.Yes:#del
                     self.textList.takeItem(self.textList.currentRow())
-                    self.imageList.remove(delList.text())
+                    del self.imageList[self.imageList.index(self.textList.currentRow())]
                 else:
                     self.MessageCancel()
             except:            
