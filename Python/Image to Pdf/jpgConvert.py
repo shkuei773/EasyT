@@ -23,57 +23,66 @@ class BTP(QWidget):
         self.move(qr.topLeft())
 
     def selectImages(self):
-        openFileBtn = QPushButton("Select Image File", self)
-        clearFileBtn = QPushButton("Image List Clear", self)
-        conFileBtn = QPushButton("Image To PDF",self)
-        self.textList = QTextBrowser(self)
-        self.textEdt = QLineEdit(self)
+        try:
+            openFileBtn = QPushButton("Select Image File", self)
+            clearFileBtn = QPushButton("Image List Clear", self)
+            conFileBtn = QPushButton("Image To PDF",self)
+            self.textList = QTextBrowser(self)
+            self.textEdt = QLineEdit(self)
 
-        form = QFormLayout()
-        form.addWidget(openFileBtn)
-        form.addWidget(QLabel()) #<br>
-        form.addWidget(QLabel("Save PDF File Name"))
-        form.addWidget(self.textEdt)
-        form.addWidget(QLabel()) #<br>
-        form.addWidget(QLabel("Image List"))
-        form.addWidget(self.textList)        
-        form.addWidget(QLabel()) #<br>
-        form.addWidget(conFileBtn)
-        form.addWidget(clearFileBtn)
+            form = QFormLayout()
+            form.addWidget(openFileBtn)
+            form.addWidget(QLabel()) #<br>
+            form.addWidget(QLabel("Save PDF File Name"))
+            form.addWidget(self.textEdt)
+            form.addWidget(QLabel()) #<br>
+            form.addWidget(QLabel("Image List"))
+            form.addWidget(self.textList)        
+            form.addWidget(QLabel()) #<br>
+            form.addWidget(conFileBtn)
+            form.addWidget(clearFileBtn)
 
-        openFileBtn.clicked.connect(self.DefFileOpen)
-        clearFileBtn.clicked.connect(self.FunClearBtn)
-        conFileBtn.clicked.connect(self.FunConImg)
+            openFileBtn.clicked.connect(self.DefFileOpen)
+            clearFileBtn.clicked.connect(self.FunClearBtn)
+            conFileBtn.clicked.connect(self.FunConImg)
 
-        self.setLayout(form)
+            self.setLayout(form) 
+        except:
+            QMessageBox.question(self, 'Error', 'Error', QMessageBox.Yes)
 
     def DefFileOpen(self):
-        #self, 파일 타이틀, 기본 디렉토리위치, 필터 종류들(;;로 구분), 디폴트 필터종류
-        fO = QFileDialog.getOpenFileNames(self,"Open", './',"Images (*.png *.jpg *bmp *jpeg)","Images (*.png *.jpg *bmp *jpeg)")
-        # qm = QMessageBox.question(self, 'Test', fO[0], QMessageBox.Yes|QMessageBox.No)
-        for i in fO[0]:
-            # print(i.split('/')[-1]) #주소에서 맨뒤만 이미지이름으로 가져옴.
-            self.ImageConvert(i)
-        # print(self.imageList)  
-        #this?
-        self.textList.setText(self.imageList) 
-        #or this?
-        for i in self.imageList:
-            self.textList.append(i) #.lstrip('[]')특정 문자열 삭제        
+        try:
+            #self, 파일 타이틀, 기본 디렉토리위치, 필터 종류들(;;로 구분), 디폴트 필터종류
+            fO = QFileDialog.getOpenFileNames(self,"Open", './',"Images (*.png *.jpg *bmp *jpeg)","Images (*.png *.jpg *bmp *jpeg)")
+            # qm = QMessageBox.question(self, 'Test', fO[0], QMessageBox.Yes|QMessageBox.No)
+            for i in fO[0]:
+                # print(i.split('/')[-1]) #주소에서 맨뒤만 이미지이름으로 가져옴.
+                self.ImageConvert(i)
+            # print(self.imageList)  
+            #this?
+            self.textList.setText(self.imageList) 
+            #or this?
+            for i in self.imageList:
+                self.textList.append(i) #.lstrip('[]')특정 문자열 삭제    
+        except:
+            QMessageBox.question(self, 'Error', 'Error', QMessageBox.Yes)            
 
     def ImageConvert(self, img):
         imgs = Image.open(img)
         imgsC = imgs.convert('RGB')
         self.imageList.append(imgsC)
 
-    def FunClearBtn(self):        
-        resetM = QMessageBox.question(self, 'Do', 'Do you want reset ImageList?',QMessageBox.Yes|QMessageBox.No)
-        if resetM == QMessageBox.Yes:
-            self.imageList.clear()
-            self.textList.clear()
-            QMessageBox.question(self, 'Success', 'Success Image List Clear', QMessageBox.Yes)
-        else:
-            self.MessageCancel      
+    def FunClearBtn(self):      
+        try:
+            resetM = QMessageBox.question(self, 'Do', 'Do you want reset ImageList?',QMessageBox.Yes|QMessageBox.No)
+            if resetM == QMessageBox.Yes:
+                self.imageList.clear()
+                self.textList.clear()
+                QMessageBox.question(self, 'Success', 'Success Image List Clear', QMessageBox.Yes)
+            else:
+                self.MessageCancel       
+        except:
+            QMessageBox.question(self, 'Error', 'Error', QMessageBox.Yes)
 
     def FunConImg(self):
         naming = './'+self.textEdt.toPlainText()+'.pdf'
