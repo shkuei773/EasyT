@@ -11,7 +11,7 @@ class BTP(QWidget):
     def initUI(self):
         self.setWindowTitle('To PDF')
         self.selectImages()
-        self.resize(500, 100)
+        #self.resize(500, 100)
         self.centerWnd()
         self.show()
 
@@ -22,16 +22,21 @@ class BTP(QWidget):
         self.move(qr.topLeft())
 
     def selectImages(self):
-        openFileBtn = QPushButton("이미지 파일 가져오기", self)
-        clearFileBtn = QPushButton("사진 파일 목록 초기화", self)
-        conFileBtn = QPushButton("PDF 변환",self)
-        self.textEdt = QTextEdit(self)
-        self.textEdt.setFixedHeight(30)
+        openFileBtn = QPushButton("Select Image File", self)
+        clearFileBtn = QPushButton("Image List Clear", self)
+        conFileBtn = QPushButton("Image To PDF",self)
+        self.textList = QTextEdit(self)
+        self.textEdt = QLineEdit(self)
 
         form = QFormLayout()
         form.addWidget(openFileBtn)
+        form.addWidget(QLabel()) #<br>
         form.addWidget(QLabel("Save PDF File Name"))
         form.addWidget(self.textEdt)
+        form.addWidget(QLabel()) #<br>
+        form.addWidget(QLabel("Image List"))
+        form.addWidget(self.textList)        
+        form.addWidget(QLabel()) #<br>
         form.addWidget(conFileBtn)
         form.addWidget(clearFileBtn)
 
@@ -48,7 +53,6 @@ class BTP(QWidget):
         for i in fO[0]:
             # print(i.split('/')[-1]) #주소에서 맨뒤만 이미지이름으로 가져옴.
             self.ImageConvert(i)
-
         # print(self.imageList)
 
     def ImageConvert(self, img):
@@ -56,14 +60,18 @@ class BTP(QWidget):
         imgsC = imgs.convert('RGB')
         self.imageList.append(imgsC)
 
-    def FunClearBtn(self):
-        self.imageList.clear()
-        QMessageBox.question(self, '완료', '이미지리스트 초기화 완료', QMessageBox.Yes)
+    def FunClearBtn(self):        
+        resetM = QMessageBox.question(self, 'Do', 'Do you want reset ImageList?',QMessageBox.Yes|QMessageBox.No)
+        if resetM == QMessageBox.Yes:
+            self.imageList.clear()
+            QMessageBox.question(self, 'Success', 'Success Image List Clear', QMessageBox.Yes)
+        else:
+            QMessageBox.question(self, 'RollBack', 'This Cancelled', QMessageBox.Yes)        
 
     def FunConImg(self):
         naming = './'+self.textEdt.toPlainText()+'.pdf'
         self.imageList[0].save(naming, save_all=True, append_images=self.imageList[1:])
-        QMessageBox.question(self, '완료', 'PDF생성 완료', QMessageBox.Yes)
+        QMessageBox.question(self, 'Success', 'Success Image To PDF', QMessageBox.Yes)
 
 
 app = QApplication(sys.argv)
