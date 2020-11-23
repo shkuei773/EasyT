@@ -7,3 +7,7 @@
 2. ~~__Overlay the file__ If a file with the __same name file__ exists.~~
 
 3. ~~__No__ MessageBox at all.~~
+
+4. Use [QSplitter](https://wikidocs.net/32154) Design.
+
+5. File's Image View
