@@ -26,7 +26,7 @@ class BTP(QWidget):
         openFileBtn = QPushButton("Select Image File", self)
         clearFileBtn = QPushButton("Image List Clear", self)
         conFileBtn = QPushButton("Image To PDF",self)
-        self.textList = QTextEdit(self)
+        self.textList = QTextBrowser(self)
         self.textEdt = QLineEdit(self)
 
         form = QFormLayout()
@@ -54,7 +54,12 @@ class BTP(QWidget):
         for i in fO[0]:
             # print(i.split('/')[-1]) #주소에서 맨뒤만 이미지이름으로 가져옴.
             self.ImageConvert(i)
-        # print(self.imageList)
+        # print(self.imageList)  
+        #this?
+        self.textList.setText(self.imageList) 
+        #or this?
+        for i in self.imageList:
+            self.textList.append(i) #.lstrip('[]')특정 문자열 삭제        
 
     def ImageConvert(self, img):
         imgs = Image.open(img)
@@ -65,6 +70,7 @@ class BTP(QWidget):
         resetM = QMessageBox.question(self, 'Do', 'Do you want reset ImageList?',QMessageBox.Yes|QMessageBox.No)
         if resetM == QMessageBox.Yes:
             self.imageList.clear()
+            self.textList.clear()
             QMessageBox.question(self, 'Success', 'Success Image List Clear', QMessageBox.Yes)
         else:
             self.MessageCancel      
