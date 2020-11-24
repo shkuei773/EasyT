@@ -1,6 +1,13 @@
 # Nonworkable List
 ---
-## Find
+## Available
+---
+1. Click on the name of the image to display the image.
+2. Can delete the selected image.
+2. All ImageList Clear.
+2. Can change the order of images up and down. 
+
+## Problem
 ---
 1. ~~__No__ exception at all.~~
 
