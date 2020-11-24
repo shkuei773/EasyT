@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29920.165
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ComputerScheduling", "ComputerScheduling.csproj", "{FC3928AB-1A33-4B28-834A-DE2CA324D5F6}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{FC3928AB-1A33-4B28-834A-DE2CA324D5F6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FC3928AB-1A33-4B28-834A-DE2CA324D5F6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FC3928AB-1A33-4B28-834A-DE2CA324D5F6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FC3928AB-1A33-4B28-834A-DE2CA324D5F6}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {AD9DAF99-6890-48DD-8B6D-8EB7F8784A8F}
+	EndGlobalSection
+EndGlobal

@@ -1,0 +1,10 @@
+E:\Zero-Year\C#\ComputerScheduling\ComputerScheduling\bin\Debug\ComputerScheduling.exe.config
+E:\Zero-Year\C#\ComputerScheduling\ComputerScheduling\bin\Debug\ComputerScheduling.exe
+E:\Zero-Year\C#\ComputerScheduling\ComputerScheduling\bin\Debug\ComputerScheduling.pdb
+E:\Zero-Year\C#\ComputerScheduling\ComputerScheduling\obj\Debug\ComputerScheduling.csprojAssemblyReference.cache
+E:\Zero-Year\C#\ComputerScheduling\ComputerScheduling\obj\Debug\ComputerScheduling.Form1.resources
+E:\Zero-Year\C#\ComputerScheduling\ComputerScheduling\obj\Debug\ComputerScheduling.Properties.Resources.resources
+E:\Zero-Year\C#\ComputerScheduling\ComputerScheduling\obj\Debug\ComputerScheduling.csproj.GenerateResource.cache
+E:\Zero-Year\C#\ComputerScheduling\ComputerScheduling\obj\Debug\ComputerScheduling.csproj.CoreCompileInputs.cache
+E:\Zero-Year\C#\ComputerScheduling\ComputerScheduling\obj\Debug\ComputerScheduling.exe
+E:\Zero-Year\C#\ComputerScheduling\ComputerScheduling\obj\Debug\ComputerScheduling.pdb
