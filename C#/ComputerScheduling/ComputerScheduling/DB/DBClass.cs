@@ -15,11 +15,13 @@ namespace ComputerScheduling.DB
     {      
         private static SqlConnection con = null; // static => 객체를 생성해서 사용하는 것이 아니라 클래스에 직접 접근하여 사용..?하는건가..
         private static bool SqlConState = false; 
-        public DBClass(){}
-        public String server{get;set;}
-        public String dbName{get;set;}
-        public String userId{get;set;}
-        public String passWord{get;set;}
+        public DBClass(){} //초기화
+        public static String server{get;set;}
+        public static String dbName{get;set;}
+        public static String userId{get;set;}
+        public static String passWord{get;set;}
+	
+	
         
         #region DBConnect
         public static void DBConnect()
