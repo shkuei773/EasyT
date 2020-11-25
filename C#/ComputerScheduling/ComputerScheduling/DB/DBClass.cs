@@ -20,7 +20,7 @@ namespace ComputerScheduling.DB
         public String userId{get;set;}
         public String passWord{get;set;}
         
-        #region DBConnec
+        #region DBConnect
         public static DBConnect()
         {
             try
