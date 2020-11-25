@@ -9,7 +9,7 @@ using System.DataSqlClient;
 #define IFNOTCON if(!SqlConState)     
 #define IFCON if(SqlConState) 
 #define PRINT System.Console.Write
-#define PRINTLN System.Console.Writeln
+#define PRINTLN System.Console.WriteLine
 
 namespace ComputerScheduling.DB
 {
