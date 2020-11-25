@@ -29,8 +29,10 @@ namespace ComputerScheduling.DB
                 IFNOTCON
                 {
                     con = new SqlConnection($"Data Source={server}; Initial Catalog={dbName}; User ID={userId}; Password={passWord}");
-                }                                 
-                
+                    con.Open();
+                }  
+                                
+                SqlConState = true;
             }
             catch(Exception e)
             {
@@ -50,10 +52,11 @@ namespace ComputerScheduling.DB
             try
             {
                 IFCON
-                {
-                    //disconnect
+                {                    
+                    con.Close();
                 }
                 
+                SqlConState = false;                
             }
             catch(Exception e)
             {
@@ -62,6 +65,33 @@ namespace ComputerScheduling.DB
             {
             }
         }
+        #endregion
+        
+        #region INSERT
+        public void SqlInsert(String tbName, String col1, String col2, String val1, String val2)
+        {
+            try
+            {
+                IFNOTCON
+                {
+                    DBConnect();
+                }
+                String insert_A = "INSERT INTO " + tbName + "(";
+                insert_A += col1 +", ";
+                insert_A += col2 +") ";
+                insert_A += "VALUES(";
+                insert_A +- "'" + val1 + "', ";
+                insert_A += "'" + val2 + "'";
+                insert_A += ")";                
+            }
+            catch(Exception e)
+            {
+            }
+            finally
+            {
+            }
+        
+        }        
         #endregion
         
         
