@@ -6,11 +6,6 @@ using System.Threading.Tasks;
 using System.Data;
 using System.DataSqlClient;
 
-#define IFNOTCON if(!SqlConState)     
-#define IFCON if(SqlConState) 
-#define PRINT System.Console.Write
-#define PRINTLN System.Console.WriteLine
-
 namespace ComputerScheduling.DB
 {
     public class DBClass
@@ -30,7 +25,7 @@ namespace ComputerScheduling.DB
         {
             try
             {
-                IFNOTCON
+                if(!SqlConState) 
                 {
                     con = new SqlConnection($"Data Source={server}; Initial Catalog={dbName}; User ID={userId}; Password={passWord}");                    
                 }  
@@ -54,7 +49,7 @@ namespace ComputerScheduling.DB
         {
             try
             {
-                IFCON
+                if(SqlConState) 
                 {                    
                     con.Close();
                 }
@@ -79,7 +74,7 @@ namespace ComputerScheduling.DB
         {
             try
             {
-                IFNOTCON
+                if(!SqlConState) 
                 {
                     DBConnect();
                 }
