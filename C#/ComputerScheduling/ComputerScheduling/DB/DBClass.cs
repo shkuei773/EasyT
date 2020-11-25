@@ -150,6 +150,17 @@ namespace ComputerScheduling.DB
 		SqlCommand cmdSelect = new SqlCommand(select_A, con);
 		sqlRead = cmdSelect.ExecuteReader();
 		    
+		    /*
+		    while (reader.Read())
+		    {
+			ReadSingleRow((IDataRecord)reader);
+		    }
+		    private static void ReadSingleRow(IDataRecord record)
+		    {
+			Console.WriteLine(String.Format("{0}, {1}", record[0], record[1]));
+		    }
+		    아래 while문 수정해야함.*/
+		    
 		while(sqlRead.Read())
 		{
 		    foreach(var sqlr in sqlRead)
