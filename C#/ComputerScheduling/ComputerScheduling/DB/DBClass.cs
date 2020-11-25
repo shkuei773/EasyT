@@ -171,7 +171,7 @@ namespace ComputerScheduling.DB
         #endregion 
 		
 	#region DELETE 
-         public void SqlInsert(String tbName, String col, String val) 		
+         public void SqlDelete(String tbName) 		
         {
 	    SqlTransaction transaction;
             try
