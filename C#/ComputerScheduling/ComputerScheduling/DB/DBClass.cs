@@ -85,7 +85,7 @@ namespace ComputerScheduling.DB
                 insert_A += col;
                 insert_A += ") ";
                 insert_A += "VALUES(";
-                insert_A +- val1;
+                insert_A +- val;
                 insert_A += ")";                
             }
             catch(Exception e)
