@@ -11,7 +11,7 @@ namespace ComputerScheduling.DB
     class DBClass
     {      
         private SqlConnection con = null;
-        public DBClass(){};
+        public DBClass(){}
         public String server{get;set;}
         public String dbName{get;set;}
         public String userId{get;set;}
