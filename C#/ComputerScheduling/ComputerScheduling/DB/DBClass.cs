@@ -64,13 +64,15 @@ namespace ComputerScheduling.DB
         */
         public void SqlInsert(String tbName, String col, String val) //DBClass.SqlInsert(TBname, DBClass.InsertCols("one", "two", "three"), DBClass.InsertValues(5, NULL, "KIST"));
         {
-	    
+	    SqlTransaction transaction;
             try
             {
                 if(!SqlConState) 
                 {
                     DBConnect();
                 }
+		transaction    = con.BeginTransaction("insert");
+		    
                 String insert_A = "INSERT INTO " + tbName + "(";
                 insert_A += col;
                 insert_A += ") ";
@@ -79,11 +81,14 @@ namespace ComputerScheduling.DB
                 insert_A += ")";
 		    
 		SqlCommand cmdInsert = new SqlCommand(insert_A, con);
+		    cmdInsert.Transaction = transaction;
 		cmdInsert.ExecuteNonQuery();	
+		    transaction.Commit();
             }
             catch(Exception e)
             {
                 MessageBox.Show(e.ToString());
+		    transaction.Rollback();
             }
         
         }        
@@ -167,6 +172,36 @@ namespace ComputerScheduling.DB
 	    }
         }        
         #endregion 
+		
+	#region DELETE 
+         public void SqlInsert(String tbName, String col, String val) 		
+        {
+	    SqlTransaction transaction;
+            try
+            {
+                if(!SqlConState) 
+                {
+                    DBConnect();
+                }
+		transaction    = con.BeginTransaction("delete");
+		    
+                String delete_A = "DELETE FROM " + tbName;
+                //delete_A += " WHERE";
+               // delete_A += ;
+		    
+		SqlCommand cmdDelete = new SqlCommand(delete_A, con);
+		    cmdDelete.Transaction = transaction;
+		cmdDelete.ExecuteNonQuery();	
+		    transaction.Commit();
+            }
+            catch(Exception e)
+            {
+                MessageBox.Show(e.ToString());
+		    transaction.Rollback();
+            }
+        
+        }     
+        #endregion
         
 		
         
