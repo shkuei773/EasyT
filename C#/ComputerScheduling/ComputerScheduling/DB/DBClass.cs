@@ -107,7 +107,7 @@ namespace ComputerScheduling.DB
             {
 	    	if(vals[valLen].GetType() == typeof(int))
 		{
-			allVals += vals[valLen].toString;
+			allVals += vals[valLen].toString();
 			if(vals.Length() - 1 <= valLen) break;
 			allVals += ", ";    
 		}
