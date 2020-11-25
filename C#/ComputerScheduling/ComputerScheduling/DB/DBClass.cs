@@ -19,7 +19,7 @@ namespace ComputerScheduling.DB
         
         public DBConnection()
         {
-            con = new SqlConnection($"Data Source={server}; Initial Catalog={dbName}; User ID={userId}; Password={passWord});
+            con = new SqlConnection($"Data Source={server}; Initial Catalog={dbName}; User ID={userId}; Password={passWord}");
         }        
     }
 }
