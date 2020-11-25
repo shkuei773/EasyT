@@ -8,11 +8,11 @@ using System.DataSqlClient;
 
 namespace ComputerScheduling.DB
 {
-    public class DBClass
+    public static class DBClass
     {      
         private static SqlConnection con = null; // static => 객체를 생성해서 사용하는 것이 아니라 클래스에 직접 접근하여 사용..?하는건가..
         private static bool SqlConState = false; 
-        public DBClass(){} //초기화
+        //public static DBClass(){} //초기화
         public static String server{get;set;}
         public static String dbName{get;set;}
         public static String userId{get;set;}
@@ -59,7 +59,7 @@ namespace ComputerScheduling.DB
         
         #region INSERT
 	//DBClass.SqlInsert(TBname, DBClass.InsertCols("one", "two", "three"), DBClass.InsertValues(5, NULL, "KIST"));
-        public void SqlInsert(String tbName, String col, String val)		
+        public static void SqlInsert(String tbName, String col, String val)		
         {
 	    SqlTransaction transaction;
             try
@@ -92,7 +92,7 @@ namespace ComputerScheduling.DB
         #endregion        
 	//value col 부분은 나중에 이런 함수가 많아지면 새로운 클래스로 옮기기(Static으로..)
         #region INSERT VALUE 
-        public String InsertValues(Params Object[] vals)
+        public static String InsertValues(Params Object[] vals)
         {
             String allVals = "";
             
@@ -117,7 +117,7 @@ namespace ComputerScheduling.DB
         #endregion        
         
         #region INSERT, SELECT COL 
-        public String InsertCols(Params String[] cols)
+        public static String InsertCols(Params String[] cols)
         {
             String allCols = "";
             
@@ -132,7 +132,7 @@ namespace ComputerScheduling.DB
         #endregion
 		
 	#region SELECT        
-        public void SqlSelect(String tbName, String col, String where = "") //DBClass.SqlInsert(TBname, DBClass.InsertCols("one", "two", "three"), DBClass.InsertValues(5, NULL, "KIST"));
+        public static void SqlSelect(String tbName, String col, String where = "") //DBClass.SqlInsert(TBname, DBClass.InsertCols("one", "two", "three"), DBClass.InsertValues(5, NULL, "KIST"));
         {
 	    SqlDataReader sqlRead = null;
 
@@ -150,24 +150,9 @@ namespace ComputerScheduling.DB
 		SqlCommand cmdSelect = new SqlCommand(select_A, con);
 		sqlRead = cmdSelect.ExecuteReader();
 		    
-		    /*
-		    while (reader.Read())
-		    {
-			ReadSingleRow((IDataRecord)reader);
-		    }
-		    private static void ReadSingleRow(IDataRecord record)
-		    {
-			Console.WriteLine(String.Format("{0}, {1}", record[0], record[1]));
-		    }
-		    아래 while문 수정해야함.*/
-		    
 		while(sqlRead.Read())
 		{
-		    foreach(var sqlr in sqlRead)
-		    {
-			    Console.Write(sqlr.ToString()+ " ");
-		    }
-			Console.WriteLine();
+		    ReadSingleRow((IDataRecord)sqlRead);
 		}
             }
             catch(Exception e)
@@ -178,11 +163,27 @@ namespace ComputerScheduling.DB
 	    {
 		    sqlRead.Close();
 	    }
-        }        
+        }     
+    
+	    private static void ReadSingleRow(IDataRecord sqlRead)
+	    {
+		    String rd = "";
+		    int sqli = 0;
+		    foreach(var sr in sqlRead)
+		    {
+			    sqli++;
+			   rd += sr.ToString(); 
+			   if(sqlRead.Length()-1 == sqli)break;   
+			   rd +=  "\t";
+		    }
+		    Console.WriteLine(rd);
+		    
+		//Console.WriteLine(String.Format("{0}, {1}", sqlRead[0], sqlRead[1]));
+	    }    	    
         #endregion 
 		
 	#region DELETE 
-         public void SqlDelete(String tbName, String where = "") 		
+         public static void SqlDelete(String tbName, String where = "") 		
         {
 	    SqlTransaction transaction;
             try
