@@ -30,10 +30,9 @@ namespace ComputerScheduling.DB
             {
                 IFNOTCON
                 {
-                    con = new SqlConnection($"Data Source={server}; Initial Catalog={dbName}; User ID={userId}; Password={passWord}");
-                    con.Open();
+                    con = new SqlConnection($"Data Source={server}; Initial Catalog={dbName}; User ID={userId}; Password={passWord}");                    
                 }  
-                                
+		con.Open();                                
                 SqlConState = true;
             }
             catch(Exception e)
@@ -97,8 +96,7 @@ namespace ComputerScheduling.DB
             }
         
         }        
-        #endregion
-        
+        #endregion        
 	//value col 부분은 나중에 이런 함수가 많아지면 새로운 클래스로 옮기기(Static으로..)
         #region INSERT VALUE 
         public String InsertValues(Params Object[] vals)
@@ -123,8 +121,7 @@ namespace ComputerScheduling.DB
             }            
             return allVals;
         }        
-        #endregion
-        
+        #endregion        
         
         #region INSERT COL 
         public String InsertCols(Params String[] cols)
