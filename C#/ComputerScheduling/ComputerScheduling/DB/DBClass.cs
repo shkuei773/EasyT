@@ -6,13 +6,14 @@ using System.Threading.Tasks;
 using System.Data;
 using System.DataSqlClient;
 
-define 
+#define IFNOTCON if(!SqlConState)     
+#define IFCON if(SqlConState) 
 
 namespace ComputerScheduling.DB
 {
     public class DBClass
     {      
-        private static SqlConnection con = null; // static => 객체를 생성해서 사용하는 것이 아니라 클래스를 직접사용..?하는건가..
+        private static SqlConnection con = null; // static => 객체를 생성해서 사용하는 것이 아니라 클래스에 직접 접근하여 사용..?하는건가..
         private static bool SqlConState = false; 
         public DBClass(){}
         public String server{get;set;}
@@ -21,11 +22,11 @@ namespace ComputerScheduling.DB
         public String passWord{get;set;}
         
         #region DBConnect
-        public static DBConnect()
+        public static void DBConnect()
         {
             try
             {
-                if(!SqlConState)
+                IFNOTCON
                 {
                     con = new SqlConnection($"Data Source={server}; Initial Catalog={dbName}; User ID={userId}; Password={passWord}");
                 }                                 
@@ -44,10 +45,15 @@ namespace ComputerScheduling.DB
         #endregion
         
         #region DBDisConnect
-        public static DBDisConnect()
+        public static void DBDisConnect()
         {
             try
             {
+                IFCON
+                {
+                    //disconnect
+                }
+                
             }
             catch(Exception e)
             {
@@ -57,6 +63,8 @@ namespace ComputerScheduling.DB
             }
         }
         #endregion
+        
+        
         
     }
 }
