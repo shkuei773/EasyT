@@ -72,7 +72,7 @@ namespace ComputerScheduling.DB
         	object[] myObjArray = { 2, 'b', "test", "again" };		
 		    Console.WriteLine(myObjArray[0].GetType() == typeof(int));
         */
-        public void SqlInsert(String tbName, String col, String val)
+        public void SqlInsert(String tbName, String col, String val) //DBClass.SqlInsert(TBname, DBClass.InsertCols("one", "two", "three"), DBClass.InsertValues(5, NULL, "KIST"));
         {
             try
             {
@@ -97,24 +97,33 @@ namespace ComputerScheduling.DB
         }        
         #endregion
         
-        #region INSERT VALUE STRING 
-        public String InsertValues(Params String[] vals)
+        #region INSERT VALUE 
+        public String InsertValues(Params Object[] vals)
         {
             String allVals = "";
             
             for(int valLen = 0; valLen < vals.Length(); valLen++)
             {
-                allVals += "'"; 
-                allVals += vals[valLen];
-                if(vals.Length() - 1 <= valLen) break;
-                allVals += "', ";                
+	    	if(vals[valLen].GetType() == typeof(int))
+		{
+			allVals += vals[valLen].toString;
+			if(vals.Length() - 1 <= valLen) break;
+			allVals += ", ";    
+		}
+		else
+		{
+			allVals += "'"; 
+			allVals += vals[valLen] == "NULL"? "":vals[valLen] ;
+			if(vals.Length() - 1 <= valLen) break;
+			allVals += "', ";    
+		}             
             }            
             return allVals;
         }        
         #endregion
         
         
-        #region INSERT COL STRING 
+        #region INSERT COL 
         public String InsertCols(Params String[] cols)
         {
             String allCols = "";
