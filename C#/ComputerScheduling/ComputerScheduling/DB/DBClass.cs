@@ -58,11 +58,8 @@ namespace ComputerScheduling.DB
         #endregion
         
         #region INSERT
-        /*
-        	object[] myObjArray = { 2, 'b', "test", "again" };		
-		    Console.WriteLine(myObjArray[0].GetType() == typeof(int));
-        */
-        public void SqlInsert(String tbName, String col, String val) //DBClass.SqlInsert(TBname, DBClass.InsertCols("one", "two", "three"), DBClass.InsertValues(5, NULL, "KIST"));
+	//DBClass.SqlInsert(TBname, DBClass.InsertCols("one", "two", "three"), DBClass.InsertValues(5, NULL, "KIST"));
+        public void SqlInsert(String tbName, String col, String val)		
         {
 	    SqlTransaction transaction;
             try
