@@ -64,6 +64,7 @@ namespace ComputerScheduling.DB
         */
         public void SqlInsert(String tbName, String col, String val) //DBClass.SqlInsert(TBname, DBClass.InsertCols("one", "two", "three"), DBClass.InsertValues(5, NULL, "KIST"));
         {
+	    
             try
             {
                 if(!SqlConState) 
@@ -97,7 +98,7 @@ namespace ComputerScheduling.DB
             {
 	    	if(vals[valLen].GetType() == typeof(int))
 		{
-			allVals += vals[valLen].toString();
+			allVals += vals[valLen].ToString();
 			if(vals.Length() - 1 <= valLen) break;
 			allVals += ", ";    
 		}
@@ -131,6 +132,8 @@ namespace ComputerScheduling.DB
 	#region SELECT        
         public void SqlSelect(String tbName, String col) //DBClass.SqlInsert(TBname, DBClass.InsertCols("one", "two", "three"), DBClass.InsertValues(5, NULL, "KIST"));
         {
+	    SqlDataReader sqlRead = null;
+
             try
             {
                 if(!SqlConState) 
@@ -141,11 +144,27 @@ namespace ComputerScheduling.DB
 		select_A += " FROM " + tbName;
 		//select_A += " WHERE 1=1 ";
 		//select_A += " AND "  
+		
+		SqlCommand cmdSelect = new SqlCommand(select_A, con);
+		sqlRead = cmdSelect.ExecuteReader();
+		    
+		while(sqlRead.Read())
+		{
+		    foreach(var sqlr in sqlRead)
+		    {
+			    Console.Write(sqlr.ToString()+ " ");
+		    }
+			Console.WriteLine();
+		}
             }
             catch(Exception e)
             {
                 MessageBox.Show(e.ToString());
             }
+	    finally
+	    {
+		    sqlRead.Close();
+	    }
         }        
         #endregion 
         
