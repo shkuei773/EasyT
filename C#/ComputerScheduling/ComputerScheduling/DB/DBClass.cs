@@ -91,7 +91,7 @@ namespace ComputerScheduling.DB
         }        
         #endregion        
 	//value col 부분은 나중에 이런 함수가 많아지면 새로운 클래스로 옮기기(Static으로..)
-        #region INSERT VALUE 
+        #region MANY VALUE  
         public static String InsertValues(Params Object[] vals)
         {
             String allVals = "";
@@ -114,9 +114,7 @@ namespace ComputerScheduling.DB
             }            
             return allVals;
         }        
-        #endregion        
-        
-        #region INSERT, SELECT COL 
+	    
         public static String InsertCols(Params String[] cols)
         {
             String allCols = "";
