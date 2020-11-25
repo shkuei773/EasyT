@@ -8,6 +8,8 @@ using System.DataSqlClient;
 
 #define IFNOTCON if(!SqlConState)     
 #define IFCON if(SqlConState) 
+#define PRINT System.Console.Write
+#define PRINTLN System.Console.Writeln
 
 namespace ComputerScheduling.DB
 {
