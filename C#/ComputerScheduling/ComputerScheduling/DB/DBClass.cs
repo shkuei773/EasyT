@@ -17,8 +17,6 @@ namespace ComputerScheduling.DB
         public static String dbName{get;set;}
         public static String userId{get;set;}
         public static String passWord{get;set;}
-	
-	
         
         #region DBConnect
         public static void DBConnect()
@@ -34,11 +32,7 @@ namespace ComputerScheduling.DB
             }
             catch(Exception e)
             {
-                
-            }
-            finally
-            {
-            
+                MessageBox.Show(e.ToString());
             }
             
         }   
@@ -58,9 +52,7 @@ namespace ComputerScheduling.DB
             }
             catch(Exception e)
             {
-            }
-            finally
-            {
+                MessageBox.Show(e.ToString());
             }
         }
         #endregion
@@ -83,13 +75,14 @@ namespace ComputerScheduling.DB
                 insert_A += ") ";
                 insert_A += "VALUES(";
                 insert_A +- val;
-                insert_A += ")";                
+                insert_A += ")";
+		    
+		SqlCommand cmdInsert = new SqlCommand(insert_A, con);
+		cmdInsert.ExecuteNonQuery();	
             }
             catch(Exception e)
             {
-            }
-            finally
-            {
+                MessageBox.Show(e.ToString());
             }
         
         }        
@@ -120,7 +113,7 @@ namespace ComputerScheduling.DB
         }        
         #endregion        
         
-        #region INSERT COL 
+        #region INSERT, SELECT COL 
         public String InsertCols(Params String[] cols)
         {
             String allCols = "";
@@ -134,7 +127,29 @@ namespace ComputerScheduling.DB
             return allCols;
         }        
         #endregion
+		
+	#region SELECT        
+        public void SqlSelect(String tbName, String col) //DBClass.SqlInsert(TBname, DBClass.InsertCols("one", "two", "three"), DBClass.InsertValues(5, NULL, "KIST"));
+        {
+            try
+            {
+                if(!SqlConState) 
+                {
+                    DBConnect();
+                }
+                String select_A = "SELECT " + col;
+		select_A += " FROM " + tbName;
+		//select_A += " WHERE 1=1 ";
+		//select_A += " AND "  
+            }
+            catch(Exception e)
+            {
+                MessageBox.Show(e.ToString());
+            }
+        }        
+        #endregion 
         
+		
         
     }
 }
