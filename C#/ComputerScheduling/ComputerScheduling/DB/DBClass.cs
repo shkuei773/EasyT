@@ -132,7 +132,7 @@ namespace ComputerScheduling.DB
         #endregion
 		
 	#region SELECT        
-        public void SqlSelect(String tbName, String col) //DBClass.SqlInsert(TBname, DBClass.InsertCols("one", "two", "three"), DBClass.InsertValues(5, NULL, "KIST"));
+        public void SqlSelect(String tbName, String col, String where = "") //DBClass.SqlInsert(TBname, DBClass.InsertCols("one", "two", "three"), DBClass.InsertValues(5, NULL, "KIST"));
         {
 	    SqlDataReader sqlRead = null;
 
@@ -171,7 +171,7 @@ namespace ComputerScheduling.DB
         #endregion 
 		
 	#region DELETE 
-         public void SqlDelete(String tbName) 		
+         public void SqlDelete(String tbName, String where = "") 		
         {
 	    SqlTransaction transaction;
             try
