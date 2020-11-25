@@ -70,14 +70,14 @@ namespace ComputerScheduling.DB
                 }
 		transaction    = con.BeginTransaction("insert");
 		    
-                String insert_A = "INSERT INTO " + tbName + "(";
-                insert_A += col;
-                insert_A += ") ";
-                insert_A += "VALUES(";
-                insert_A +- val;
-                insert_A += ")";
+                String DBInsert = "INSERT INTO " + tbName + "(";
+                DBInsert += col;
+                DBInsert += ") ";
+                DBInsert += "VALUES(";
+                DBInsert +- val;
+                DBInsert += ")";
 		    
-		SqlCommand cmdInsert = new SqlCommand(insert_A, con);
+		SqlCommand cmdInsert = new SqlCommand(DBInsert, con);
 		    cmdInsert.Transaction = transaction;
 		cmdInsert.ExecuteNonQuery();	
 		    transaction.Commit();
@@ -140,12 +140,12 @@ namespace ComputerScheduling.DB
                 {
                     DBConnect();
                 }
-                String select_A = "SELECT " + col;
-		select_A += " FROM " + tbName;
-		//select_A += " WHERE 1=1 ";
-		//select_A += " AND "  
+                String DBSelect = "SELECT " + col;
+		DBSelect += " FROM " + tbName;
+		//DBSelect += " WHERE 1=1 ";
+		//DBSelect += " AND "  
 		
-		SqlCommand cmdSelect = new SqlCommand(select_A, con);
+		SqlCommand cmdSelect = new SqlCommand(DBSelect, con);
 		sqlRead = cmdSelect.ExecuteReader();
 		    
 		while(sqlRead.Read())
@@ -192,11 +192,11 @@ namespace ComputerScheduling.DB
                 }
 		transaction    = con.BeginTransaction("delete");
 		    
-                String delete_A = "DELETE FROM " + tbName;
-                //delete_A += " WHERE";
-               // delete_A += ;
+                String DBDelete = "DELETE FROM " + tbName;
+                //DBDelete += " WHERE";
+               // DBDelete += ;
 		    
-		SqlCommand cmdDelete = new SqlCommand(delete_A, con);
+		SqlCommand cmdDelete = new SqlCommand(DBDelete, con);
 		    cmdDelete.Transaction = transaction;
 		cmdDelete.ExecuteNonQuery();	
 		    transaction.Commit();
