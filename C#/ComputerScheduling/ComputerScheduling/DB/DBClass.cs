@@ -97,7 +97,7 @@ namespace ComputerScheduling.DB
         }        
         #endregion
         
-	//value col 부분은 새로운 클래스에 옮겨도 될듯(
+	//value col 부분은 나중에 이런 함수가 많아지면 새로운 클래스로 옮기기(Static으로..)
         #region INSERT VALUE 
         public String InsertValues(Params Object[] vals)
         {
