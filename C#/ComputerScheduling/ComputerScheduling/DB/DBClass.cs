@@ -68,7 +68,7 @@ namespace ComputerScheduling.DB
         #endregion
         
         #region INSERT
-        public void SqlInsert(String tbName, String col1, String col2, String val1, String val2)
+        public void SqlInsert(String tbName, String col, String val)
         {
             try
             {
@@ -77,11 +77,10 @@ namespace ComputerScheduling.DB
                     DBConnect();
                 }
                 String insert_A = "INSERT INTO " + tbName + "(";
-                insert_A += col1 +", ";
-                insert_A += col2 +") ";
+                insert_A += col;
+                insert_A += ") ";
                 insert_A += "VALUES(";
-                insert_A +- "'" + val1 + "', ";
-                insert_A += "'" + val2 + "'";
+                insert_A +- val1;
                 insert_A += ")";                
             }
             catch(Exception e)
@@ -94,6 +93,37 @@ namespace ComputerScheduling.DB
         }        
         #endregion
         
+        #region INSERT VALUE STRING 
+        public String InsertValues(Params String[] vals)
+        {
+            String allVals = "";
+            
+            for(int valLen = 0; valLen < vals.Length(); valLen++)
+            {
+                allVals += "'"; 
+                allVals += vals[valLen];
+                if(vals.Length() - 1 <= valLen) break;
+                allVals += "', ";                
+            }            
+            return allVals;
+        }        
+        #endregion
+        
+        
+        #region INSERT COL STRING 
+        public String InsertCols(Params String[] cols)
+        {
+            String allCols = "";
+            
+            for(int colLen = 0; colLen < cols.Length(); colLen++)
+            { 
+                allCols += cols[colLen];
+                if(cols.Length() - 1 <= colLen) break;
+                allCols += ", ";                
+            }            
+            return allCols;
+        }        
+        #endregion
         
         
     }
