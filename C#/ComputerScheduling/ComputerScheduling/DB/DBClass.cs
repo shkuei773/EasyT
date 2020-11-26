@@ -24,8 +24,7 @@ namespace ComputerScheduling.DB
         {
             try
             {
-                    con ??= new SqlConnection($"Data Source={server}; Initial Catalog={dbName}; User ID={userId}; Password={passWord}");                    
-                
+                con ??= new SqlConnection($"Data Source={server}; Initial Catalog={dbName}; User ID={userId}; Password={passWord}");   
 		con.Open();                                
                 //SqlConState = true;
             }
@@ -124,17 +123,7 @@ namespace ComputerScheduling.DB
             }            
             return allCols;
         } 
-    //where *this
-	    public static String FunWhere(Params String[] cols)
-	    {
-		    
-		    
-	    }
-	    
-	    
-	    
-	    
-        #endregion
+	#endregion
 		
 	#region SELECT        
         public static void SqlSelect(String tbName, String col, String where = "") //DBClass.SqlInsert(TBname, DBClass.InsertCols("one", "two", "three"), DBClass.InsertValues(5, NULL, "KIST"));
@@ -216,8 +205,5 @@ namespace ComputerScheduling.DB
         
         }     
         #endregion
-        
-		
-        
     }
 }
