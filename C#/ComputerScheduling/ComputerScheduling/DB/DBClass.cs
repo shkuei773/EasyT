@@ -101,7 +101,7 @@ namespace ComputerScheduling.DB
 		else
 		{
 			allVals += "'"; 
-			allVals += (vals[valLen] == null? "":vals[valLen]) ;
+			allVals += (vals[valLen] == null? "":vals[valLen].ToString()) ;
 			if(vals.Length() - 1 <= valLen) break;
 			allVals += "', ";    
 		}             
@@ -124,7 +124,7 @@ namespace ComputerScheduling.DB
 	#endregion
 		
 	#region SELECT        
-        public static void SqlSelect(String tbName, String col, String where = "") //DBClass.SqlInsert(TBname, DBClass.InsertCols("one", "two", "three"), DBClass.InsertValues(5, NULL, "KIST"));
+        public static void SqlSelect(String tbName, String col, String where = "") //DBClass.SqlInsert(TBname, DBClass.InsertCols("one", "two", "three"), DBClass.InsertValues(5, null, "KIST"));
         {
 	    SqlDataReader sqlRead = null;
 
