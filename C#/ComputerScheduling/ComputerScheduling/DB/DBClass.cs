@@ -61,8 +61,7 @@ namespace ComputerScheduling.DB
                 if(con == null) 
                 {
                     DBConnect();
-                }
-                
+                }                
 		transaction    = con.BeginTransaction();
 		    
                 String DBInsert = "INSERT INTO " + tbName + "(";
@@ -90,8 +89,7 @@ namespace ComputerScheduling.DB
 	//values null is lower
         public static String InsertValues(Params Object[] vals)
         {
-            String allVals = "";
-            
+            String allVals = "";            
             for(int valLen = 0; valLen < vals.Length(); valLen++)
             {
 	    	if(vals[valLen].GetType() == typeof(int))
@@ -170,8 +168,7 @@ namespace ComputerScheduling.DB
 			   if(sqlRead.Length()-1 == sqli)break;   
 			   rd +=  "\t";
 		    }
-		    Console.WriteLine(rd);
-		    
+		    Console.WriteLine(rd);		    
 		//Console.WriteLine(String.Format("{0}, {1}", sqlRead[0], sqlRead[1]));
 	    }    	    
         #endregion 
@@ -201,8 +198,7 @@ namespace ComputerScheduling.DB
             {
                 MessageBox.Show(e.ToString());
 		    transaction.Rollback();
-            }
-        
+            }        
         }     
         #endregion
     }
