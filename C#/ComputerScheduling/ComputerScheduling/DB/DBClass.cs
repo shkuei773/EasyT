@@ -9,32 +9,30 @@ using System.DataSqlClient;
 namespace ComputerScheduling.DB
 {
     public static class DBClass
-    {      
+    {
+	    //private const NULL = null;
         private static SqlConnection con = null; // static => 객체를 생성해서 사용하는 것이 아니라 클래스에 직접 접근하여 사용..?하는건가..
-        private static bool SqlConState = false; 
+        //private static bool SqlConState = false; 
         //public static DBClass(){} //초기화
         public static String server{get;set;}
         public static String dbName{get;set;}
         public static String userId{get;set;}
         public static String passWord{get;set;}
-        
+	    
         #region DBConnect
         public static void DBConnect()
         {
             try
             {
-                if(!SqlConState) 
-                {
-                    con = new SqlConnection($"Data Source={server}; Initial Catalog={dbName}; User ID={userId}; Password={passWord}");                    
-                }  
+                    con ??= new SqlConnection($"Data Source={server}; Initial Catalog={dbName}; User ID={userId}; Password={passWord}");                    
+                
 		con.Open();                                
-                SqlConState = true;
+                //SqlConState = true;
             }
             catch(Exception e)
             {
                 MessageBox.Show(e.ToString());
-            }
-            
+            }            
         }   
         #endregion
         
@@ -43,12 +41,9 @@ namespace ComputerScheduling.DB
         {
             try
             {
-                if(SqlConState) 
-                {                    
-                    con.Close();
-                }
-                
-                SqlConState = false;                
+                if(con != null) con.Close();
+                con = null;
+                //SqlConState = false;                
             }
             catch(Exception e)
             {
@@ -58,17 +53,18 @@ namespace ComputerScheduling.DB
         #endregion
         
         #region INSERT
-	//DBClass.SqlInsert(TBname, DBClass.InsertCols("one", "two", "three"), DBClass.InsertValues(5, NULL, "KIST"));
+	//DBClass.SqlInsert(TBname, DBClass.InsertCols("one", "two", "three"), DBClass.InsertValues(5, null, "KIST"));
         public static void SqlInsert(String tbName, String col, String val)		
         {
 	    SqlTransaction transaction;
             try
-            {
-                if(!SqlConState) 
+            {		    
+                if(con == null) 
                 {
                     DBConnect();
                 }
-		transaction    = con.BeginTransaction("insert");
+                
+		transaction    = con.BeginTransaction();
 		    
                 String DBInsert = "INSERT INTO " + tbName + "(";
                 DBInsert += col;
@@ -90,8 +86,9 @@ namespace ComputerScheduling.DB
         
         }        
         #endregion        
-	//value col 부분은 나중에 이런 함수가 많아지면 새로운 클래스로 옮기기(Static으로..)
+	//col 부분은 나중에 이런 함수가 많아지면 새로운 클래스로 옮기기(Static으로..)
         #region MANY VALUE  
+	//values null is lower
         public static String InsertValues(Params Object[] vals)
         {
             String allVals = "";
@@ -107,14 +104,14 @@ namespace ComputerScheduling.DB
 		else
 		{
 			allVals += "'"; 
-			allVals += vals[valLen] == "NULL"? "":vals[valLen] ;
+			allVals += (vals[valLen] == null? "":vals[valLen]) ;
 			if(vals.Length() - 1 <= valLen) break;
 			allVals += "', ";    
 		}             
             }            
             return allVals;
         }        
-	    
+	//columns
         public static String InsertCols(Params String[] cols)
         {
             String allCols = "";
@@ -126,7 +123,17 @@ namespace ComputerScheduling.DB
                 allCols += ", ";                
             }            
             return allCols;
-        }        
+        } 
+    //where *this
+	    public static String FunWhere(Params String[] cols)
+	    {
+		    
+		    
+	    }
+	    
+	    
+	    
+	    
         #endregion
 		
 	#region SELECT        
@@ -136,7 +143,7 @@ namespace ComputerScheduling.DB
 
             try
             {
-                if(!SqlConState) 
+                if(con == null) 
                 {
                     DBConnect();
                 }
@@ -159,7 +166,7 @@ namespace ComputerScheduling.DB
             }
 	    finally
 	    {
-		    sqlRead.Close();
+		sqlRead.Close();
 	    }
         }     
     
@@ -185,12 +192,12 @@ namespace ComputerScheduling.DB
         {
 	    SqlTransaction transaction;
             try
-            {
-                if(!SqlConState) 
+            {                
+                if(con == null) 
                 {
                     DBConnect();
                 }
-		transaction    = con.BeginTransaction("delete");
+		transaction    = con.BeginTransaction();
 		    
                 String DBDelete = "DELETE FROM " + tbName;
                 //DBDelete += " WHERE";
