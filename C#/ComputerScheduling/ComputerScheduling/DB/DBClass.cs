@@ -160,14 +160,12 @@ namespace ComputerScheduling.DB
 	    private static void ReadSingleRow(IDataRecord sqlRead)
 	    {
 		    String rd = "";
-		    int sqli = 0;
-		    foreach(var sr in sqlRead)
-		    {
-			    sqli++;
-			   rd += sr.ToString(); 
-			   if(sqlRead.Length()-1 == sqli)break;   
-			   rd +=  "\t";
-		    }
+		    for(int sr=0; sr<sqlRead.Length(); sr++)
+		{	
+			rd += sqlRead[sr].ToString(); 
+		   if(sqlRead.Length()-1 == sr)break;   
+		   rd +=  "\t";	    
+		}
 		    Console.WriteLine(rd);		    
 		//Console.WriteLine(String.Format("{0}, {1}", sqlRead[0], sqlRead[1]));
 	    }    	    
