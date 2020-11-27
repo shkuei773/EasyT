@@ -86,42 +86,31 @@ namespace ComputerScheduling.DB
 
         }
         #endregion
-        //col 부분은 나중에 이런 함수가 많아지면 새로운 클래스로 옮기기(Static으로..)
-        #region MANY VALUE  
-        //values null is lower
-        public static String InsertValues(params Object[] vals)
-        {
-            String allVals = "";
-            for (int valLen = 0; valLen < vals.Length; valLen++)
-            {
-                if (vals[valLen].GetType() == typeof(int))
-                {
-                    allVals += vals[valLen].ToString();
-                    if (vals.Length - 1 <= valLen) break;
-                    allVals += ", ";
-                }
-                else
-                {
-                    allVals += "'";
-                    allVals += (vals[valLen] == null ? "" : vals[valLen].ToString());
-                    if (vals.Length - 1 <= valLen) break;
-                    allVals += "', ";
-                }
-            }
-            return allVals;
-        }
-        //columns
-        public static String InsertCols(params String[] cols)
-        {
-            String allCols = "";
 
-            for (int colLen = 0; colLen < cols.Length; colLen++)
+        #region DELETE 
+        public static void SqlDelete(String tbName, String where = "")
+        {            
+            SqlTransaction transaction = con.BeginTransaction();
+            try
             {
-                allCols += cols[colLen];
-                if (cols.Length - 1 <= colLen) break;
-                allCols += ", ";
+                if (con.State == ConnectionState.Closed)
+                {
+                    DBConnect();                    
+                }
+                String DBDelete = "DELETE FROM " + tbName;
+                //DBDelete += " WHERE";
+                // DBDelete += ;
+
+                SqlCommand cmdDelete = new SqlCommand(DBDelete, con);
+                cmdDelete.Transaction = transaction;
+                cmdDelete.ExecuteNonQuery();
+                transaction.Commit();
             }
-            return allCols;
+            catch (Exception e)
+            {
+                MessageBox.Show(e.ToString());
+                transaction.Rollback();
+            }
         }
         #endregion
 
@@ -170,31 +159,42 @@ namespace ComputerScheduling.DB
             //Console.WriteLine(String.Format("{0}, {1}", sqlRead[0], sqlRead[1]));
         }
         #endregion
-
-        #region DELETE 
-        public static void SqlDelete(String tbName, String where = "")
-        {            
-            SqlTransaction transaction = con.BeginTransaction();
-            try
+        //col 부분은 나중에 이런 함수가 많아지면 새로운 클래스로 옮기기(Static으로..)
+        #region MANY VALUE  
+        //values null is lower
+        public static String InsertValues(params Object[] vals)
+        {
+            String allVals = "";
+            for (int valLen = 0; valLen < vals.Length; valLen++)
             {
-                if (con.State == ConnectionState.Closed)
+                if (vals[valLen].GetType() == typeof(int))
                 {
-                    DBConnect();                    
+                    allVals += vals[valLen].ToString();
+                    if (vals.Length - 1 <= valLen) break;
+                    allVals += ", ";
                 }
-                String DBDelete = "DELETE FROM " + tbName;
-                //DBDelete += " WHERE";
-                // DBDelete += ;
+                else
+                {
+                    allVals += "'";
+                    allVals += (vals[valLen] == null ? "" : vals[valLen].ToString());
+                    if (vals.Length - 1 <= valLen) break;
+                    allVals += "', ";
+                }
+            }
+            return allVals;
+        }
+        //columns
+        public static String InsertCols(params String[] cols)
+        {
+            String allCols = "";
 
-                SqlCommand cmdDelete = new SqlCommand(DBDelete, con);
-                cmdDelete.Transaction = transaction;
-                cmdDelete.ExecuteNonQuery();
-                transaction.Commit();
-            }
-            catch (Exception e)
+            for (int colLen = 0; colLen < cols.Length; colLen++)
             {
-                MessageBox.Show(e.ToString());
-                transaction.Rollback();
+                allCols += cols[colLen];
+                if (cols.Length - 1 <= colLen) break;
+                allCols += ", ";
             }
+            return allCols;
         }
         #endregion
     }
