@@ -21,20 +21,22 @@ namespace ComputerScheduling.DB
         public static String passWord { get; set; }
 
         #region DBConnect
-        public static void DBConnect()
+        public static bool DBConnect()
         {
             if(con == null)
             {
                 con = new SqlConnection($"Data Source={server}; Initial Catalog={dbName}; User ID={userId}; Password={passWord}");
             }
             try
-            {
+            {                
                 con.Open();
+                return true;
                 //SqlConState = true;
             }
             catch (Exception e)
             {
                 MessageBox.Show(e.ToString());
+                return false;
             }
         }
         #endregion
@@ -58,25 +60,28 @@ namespace ComputerScheduling.DB
         #region INSERT
         //DBClass.SqlInsert(TBname, DBClass.InsertCols("one", "two", "three"), DBClass.InsertValues(5, null, "KIST"));
         public static void SqlInsert(String tbName, String col, String val)
-        {
-            if (con == null)
-            {
-                DBConnect();
-            }
+        {            
             SqlTransaction transaction = con.BeginTransaction();
             try
             {
-                String DBInsert = "INSERT INTO " + tbName + "(";
-                DBInsert += col;
-                DBInsert += ") ";
-                DBInsert += "VALUES(";
-                DBInsert += val;
-                DBInsert += ")";
+                if (DBConnect())
+                {
+                    String DBInsert = "INSERT INTO " + tbName + "(";
+                    DBInsert += col;
+                    DBInsert += ") ";
+                    DBInsert += "VALUES(";
+                    DBInsert += val;
+                    DBInsert += ")";
 
-                SqlCommand cmdInsert = new SqlCommand(DBInsert, con);
-                cmdInsert.Transaction = transaction;
-                cmdInsert.ExecuteNonQuery();
-                transaction.Commit();
+                    SqlCommand cmdInsert = new SqlCommand(DBInsert, con);
+                    cmdInsert.Transaction = transaction;
+                    cmdInsert.ExecuteNonQuery();
+                    transaction.Commit();
+                }       
+                else
+                {
+                    MessageBox.Show("DB연결 실패");                    
+                }
             }
             catch (Exception e)
             {
@@ -129,25 +134,26 @@ namespace ComputerScheduling.DB
         public static void SqlSelect(String tbName, String col, String where = "") //DBClass.SqlInsert(TBname, DBClass.InsertCols("one", "two", "three"), DBClass.InsertValues(5, null, "KIST"));
         {
             SqlDataReader sqlRead = null;
-
             try
             {
-                if (con == null)
+                if (DBConnect())
                 {
-                    DBConnect();
+                    String DBSelect = "SELECT " + col;
+                    DBSelect += " FROM " + tbName;
+                    //DBSelect += " WHERE 1=1 ";
+                    //DBSelect += " AND "  
+
+                    SqlCommand cmdSelect = new SqlCommand(DBSelect, con);
+                    sqlRead = cmdSelect.ExecuteReader();
+                     while (sqlRead.Read())
+                    {
+                        ReadSingleRow((IDataRecord)sqlRead);//테이블 등이랑 연동
+                    }
                 }
-                String DBSelect = "SELECT " + col;
-                DBSelect += " FROM " + tbName;
-                //DBSelect += " WHERE 1=1 ";
-                //DBSelect += " AND "  
-
-                SqlCommand cmdSelect = new SqlCommand(DBSelect, con);
-                sqlRead = cmdSelect.ExecuteReader();
-
-                while (sqlRead.Read())
+                else
                 {
-                    ReadSingleRow((IDataRecord)sqlRead);
-                }
+                    MessageBox.Show("DB연결 실패");                    
+                }               
             }
             catch (Exception e)
             {
@@ -175,22 +181,25 @@ namespace ComputerScheduling.DB
 
         #region DELETE 
         public static void SqlDelete(String tbName, String where = "")
-        {
-            if (con == null)
-            {
-                DBConnect();
-            }
+        {            
             SqlTransaction transaction = con.BeginTransaction();
             try
             {
-                String DBDelete = "DELETE FROM " + tbName;
-                //DBDelete += " WHERE";
-                // DBDelete += ;
+                if (DBConnect())
+                {
+                    String DBDelete = "DELETE FROM " + tbName;
+                    //DBDelete += " WHERE";
+                    // DBDelete += ;
 
-                SqlCommand cmdDelete = new SqlCommand(DBDelete, con);
-                cmdDelete.Transaction = transaction;
-                cmdDelete.ExecuteNonQuery();
-                transaction.Commit();
+                    SqlCommand cmdDelete = new SqlCommand(DBDelete, con);
+                    cmdDelete.Transaction = transaction;
+                    cmdDelete.ExecuteNonQuery();
+                    transaction.Commit();
+                }                
+                else
+                {
+                    MessageBox.Show("DB연결 실패");                    
+                }                    
             }
             catch (Exception e)
             {
