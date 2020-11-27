@@ -10,6 +10,16 @@ Function
 SELECT OrderID, CustomerID FROM => select from 사이에서 값 받아와서 ,로 스플릿해서 아이디 값을 받아와서
 유연하게 값을 받을수 있게 수정
 
+(DBConnection)[https://docs.microsoft.com/ko-kr/dotnet/api/system.data.sqlclient.sqlparametercollection.addwithvalue?view=dotnet-plat-ext-5.0]
+디비 using을 쓰면 메모리가 자동으로 해제됨
+
+(Parameter 지정하는 다양한 표현들)[http://www.csharpstudy.com/Data/SQL-parameter.aspx]
+
+
+---
+
+
+
 while (reader.Read())
 {
     ReadSingleRow((IDataRecord)reader);
