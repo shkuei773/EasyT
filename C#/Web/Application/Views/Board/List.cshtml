@@ -1,0 +1,49 @@
+﻿@model List<Application.Models.Document>
+@{
+    Layout = null;
+    var member = ViewData["Member"] as List<Application.Models.Member>;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>List</title>
+</head>
+<body>
+    <div>
+        
+        <table>
+            <thead>
+                <tr>
+                    <th>번호</th>
+                    <th>제목</th>
+                    <th>글쓴이</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var k in Model)
+                {
+                    <tr>
+                        <td>@k.Document_Number</td>
+                        <td>@k.Title</td>
+                        <td>@k.Writer</td>
+                    </tr>
+                }
+                @foreach (var kkk in member)
+                {
+                    <tr>
+                        <td>@kkk.Id.ToString()</td>
+                        <td>@kkk.Password.ToString()</td>
+                        <td>@kkk.Member_Number.ToString()</td>
+                        <td>@kkk.Name.ToString()</td>
+                    </tr>
+                }
+            </tbody>
+
+        </table>
+        This is List View
+    </div>
+</body>
+</html>
